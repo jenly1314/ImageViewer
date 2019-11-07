@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ImageViewerTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/ivColorPrimaryDark</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@color/ivWindowBackground</item>
+        <item name="android:textSize">@dimen/ivTextSize</item>
+        <item name="android:textColor">@color/ivTextColor</item>
+    </style>
+
+</resources>

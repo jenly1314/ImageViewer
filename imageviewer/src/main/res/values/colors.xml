@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="ivColorPrimaryDark">#FF000000</color>
+    <color name="ivWindowBackground">#FF000000</color>
+    <color name="ivTextColor">#FFFFFFFF</color>
+</resources>
