@@ -1,2 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.king.image.imageviewer" />
+    package="com.king.image.imageviewer" >
+
+    <application>
+        <activity android:name=".ImageViewerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageViewerTheme"/>
+
+    </application>
+
+</manifest>

@@ -30,10 +30,6 @@
         <activity android:name=".PhotoListActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name="com.king.image.imageviewer.ImageViewerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ImageViewerTheme"/>
-
     </application>
 
 </manifest>
