@@ -52,17 +52,6 @@ allprojects {
 
 ## 示例
 
-### 配置
-
-在您的主项目的**AndroidManifest**中注册**ImageViewerActivity**
-
-```Xml
-    <activity android:name="com.king.image.imageviewer.ImageViewerActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/ImageViewerTheme"/>
-```
-
-
 ### 代码示例
 ```Java
     //图片查看器
