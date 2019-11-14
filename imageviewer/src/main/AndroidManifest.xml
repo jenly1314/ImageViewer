@@ -3,7 +3,7 @@
 
     <application>
         <activity android:name=".ImageViewerActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="behind"
             android:theme="@style/ImageViewerTheme"/>
 
     </application>
