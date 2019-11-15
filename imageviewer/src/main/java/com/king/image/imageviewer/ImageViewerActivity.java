@@ -1,6 +1,7 @@
 package com.king.image.imageviewer;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,8 +28,16 @@ public class ImageViewerActivity extends AppCompatActivity {
     private boolean isShowIndicator;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewerSpec = ViewerSpec.INSTANCE;
+        setRequestedOrientation(mViewerSpec.orientation);
+        setTheme(mViewerSpec.theme);
         setContentView(R.layout.image_viewer_activity);
         init();
     }
@@ -56,8 +65,6 @@ public class ImageViewerActivity extends AppCompatActivity {
                 super.onPageScrollStateChanged(state);
             }
         });
-
-        mViewerSpec = ViewerSpec.INSTANCE;
 
         ViewCompat.setTransitionName(viewPager,SHARED_ELEMENT);
 

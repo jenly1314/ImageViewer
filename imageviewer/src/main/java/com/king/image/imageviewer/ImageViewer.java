@@ -3,6 +3,7 @@ package com.king.image.imageviewer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import java.util.List;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -101,6 +103,15 @@ public final class ImageViewer {
     }
 
     /**
+     * 加载图片
+     * @param data  支持{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
+     * @return
+     */
+    public static ImageViewer load(@NonNull Object data){
+        return new ImageViewer(data);
+    }
+
+    /**
      * 当前选中位置
      * @param position 默认：0
      * @return
@@ -181,6 +192,26 @@ public final class ImageViewer {
      */
     public ImageViewer activityOptionsCompat(ActivityOptionsCompat optionsCompat){
         this.mOptionsCompat = optionsCompat;
+        return this;
+    }
+
+    /**
+     * 设置屏幕方向
+     * @param orientation  默认：{@link ActivityInfo#SCREEN_ORIENTATION_BEHIND}
+     * @return
+     */
+    public ImageViewer orientation(int orientation){
+        this.mViewerSpec.orientation = orientation;
+        return this;
+    }
+
+    /**
+     * 设置主题风格
+     * @param theme  默认：{@link R.style#ImageViewerTheme}
+     * @return
+     */
+    public ImageViewer theme(@StyleRes int theme){
+        this.mViewerSpec.theme = theme;
         return this;
     }
 

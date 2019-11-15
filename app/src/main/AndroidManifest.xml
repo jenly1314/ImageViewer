@@ -25,14 +25,12 @@
         </activity>
 
         <activity android:name=".PhotoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".PhotoListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
-
-        <activity android:name="com.king.image.imageviewer.ImageViewerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ImageViewerTheme"/>
 
     </application>
 

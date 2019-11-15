@@ -1,2 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.king.image.imageviewer" />
+    package="com.king.image.imageviewer" >
+
+    <application>
+
+        <activity android:name="com.king.image.imageviewer.ImageViewerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+    </application>
+</manifest>

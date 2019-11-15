@@ -24,18 +24,18 @@ ImageViewer for Android 是一个图片查看器，一般用来查看图片详�
 <dependency>
   <groupId>com.king.image</groupId>
   <artifactId>imageviewer</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>pom</type>
 </dependency>
 ```
 ### Gradle:
 ```gradle
-implementation 'com.king.image:imageviewer:1.0.0'
+implementation 'com.king.image:imageviewer:1.0.1'
 ```
 
 ### Lvy:
 ```lvy
-<dependency org='com.king.image' name='imageviewer' rev='1.0.0'>
+<dependency org='com.king.image' name='imageviewer' rev='1.0.1'>
   <artifact name='$AID' ext='pom'></artifact>
 </dependency>
 ```
@@ -52,26 +52,28 @@ allprojects {
 
 ## 示例
 
-### 配置
+### 代码示例
 
-在您的主项目的**AndroidManifest**中注册**ImageViewerActivity**
+```Java
+    //图片查看器 - 简单调用
 
-```Xml
-    <activity android:name="com.king.image.imageviewer.ImageViewerActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/ImageViewerTheme"/>
+    // data 可以多张图片List或单张图片，支持的类型可以是{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
+    ImageViewer.load(data)//要加载的图片数据，单张或多张
+            .imageLoader(new GlideImageLoader())//加载器，imageLoader必须配置，目前内置的有GlideImageLoader或PicassoImageLoader，也可以自己实现
+            .start(activity,sharedElement);//activity or fragment, 跳转时的共享元素视图
+
 ```
 
-
-### 代码示例
 ```Java
     //图片查看器
-    // data 可以多张图片List或单张图片，支持的类型可以是{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
 
+    // data 可以多张图片List或单张图片，支持的类型可以是{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
     ImageViewer.load(data)//要加载的图片数据，单张或多张
             .selection(position)//当前选中位置，默认：0
             .indicator(true)//是否显示指示器，默认不显示
             .imageLoader(new GlideImageLoader())//加载器，imageLoader必须配置，目前内置的有GlideImageLoader或PicassoImageLoader，也可以自己实现
+            .theme(R.style.ImageViewerTheme)//设置主题风格，默认：R.style.ImageViewerTheme
+            .orientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//设置屏幕方向,默认：ActivityInfo.SCREEN_ORIENTATION_BEHIND
             .start(activity,sharedElement);//activity or fragment, 跳转时的共享元素视图
 
 ```
@@ -91,6 +93,9 @@ allprojects {
 更多使用详情，请查看[app](app)中的源码使用示例
 
 ## 版本记录
+
+#### v1.0.1：2019-11-15
+*  简化集成步骤
 
 #### v1.0.0：2019-11-7
 *  ImageViewer初始版本
