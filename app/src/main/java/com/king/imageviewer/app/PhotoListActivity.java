@@ -33,7 +33,7 @@ public class PhotoListActivity extends AppCompatActivity {
     private void init(){
         listData = new ArrayList<>();
         for (int i=1;i<20;i++){
-            listData.add(String.format("https://jenly.coding.me/medias/featureimages/%d.jpg",i));
+            listData.add(String.format("https://jenly1314.github.io/medias/featureimages/%d.jpg",i));
         }
 
         PhotoAdapter adapter = new PhotoAdapter(listData);
