@@ -2,8 +2,14 @@ package com.king.image.imageviewer.loader;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.widget.ImageView;
 
+import com.king.image.imageviewer.ImageDataSource;
+
+import java.io.File;
+
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
 
@@ -19,7 +25,7 @@ public interface ImageLoader {
      * 加载图片
      * @param context
      * @param imageView
-     * @param data 图片数据源
+     * @param data 图片数据源  支持 {@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}, {@link ImageDataSource}...等
      * @param placeholderDrawable 占位图
      * @param errorDrawable  加载失败时显示的图片
      */

@@ -3,8 +3,7 @@ package com.king.image.imageviewer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.github.chrisbanes.photoview.PhotoView;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +60,7 @@ public class ImageViewerAdapter extends Adapter<ImageViewerAdapter.ImageHolder> 
 
     static class ImageHolder extends RecyclerView.ViewHolder {
 
-        PhotoView photoView;
+        ImageView photoView;
 
         private ImageHolder(@NonNull View itemView) {
             super(itemView);

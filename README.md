@@ -3,7 +3,7 @@
 ![Image](app/src/main/ic_launcher-web.png)
 
 [![Download](https://img.shields.io/badge/download-App-blue.svg)](https://raw.githubusercontent.com/jenly1314/ImageViewer/master/app/release/app-release.apk)
-[![JCenter](https://img.shields.io/badge/JCenter-1.0.1-46C018.svg)](https://bintray.com/beta/#/jenly/maven/imageviewer)
+[![JCenter](https://img.shields.io/badge/JCenter-1.0.2-46C018.svg)](https://bintray.com/beta/#/jenly/maven/imageviewer)
 [![JitPack](https://jitpack.io/v/jenly1314/ImageViewer.svg)](https://jitpack.io/#jenly1314/ImageViewer)
 [![CI](https://travis-ci.org/jenly1314/ImageViewer.svg?branch=master)](https://travis-ci.org/jenly1314/ImageViewer)
 [![CircleCI](https://circleci.com/gh/jenly1314/ImageViewer.svg?style=svg)](https://circleci.com/gh/jenly1314/ImageViewer)
@@ -25,18 +25,18 @@ ImageViewer for Android 是一个图片查看器，一般用来查看图片详�
 <dependency>
   <groupId>com.king.image</groupId>
   <artifactId>imageviewer</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <type>pom</type>
 </dependency>
 ```
 ### Gradle:
 ```gradle
-implementation 'com.king.image:imageviewer:1.0.1'
+implementation 'com.king.image:imageviewer:1.0.2'
 ```
 
 ### Lvy:
 ```lvy
-<dependency org='com.king.image' name='imageviewer' rev='1.0.1'>
+<dependency org='com.king.image' name='imageviewer' rev='1.0.2'>
   <artifact name='$AID' ext='pom'></artifact>
 </dependency>
 ```
@@ -80,20 +80,24 @@ allprojects {
 ```
 
 ### 相关说明
-> * 使用**ImageViewer**时，必须配置一个实现的**ImageLoader**。
+> * 使用 **ImageViewer** 时，必须配置一个实现的 **ImageLoader**。
 
-> * **ImageViewer**一次可以查看多张图片或单张图片，支持的类型可以是**Uri**, **url**, **path**,**File**, **Drawable**等
+> * **ImageViewer** 一次可以查看多张图片或单张图片，支持的类型可以是 **Uri**、 **url** 、 **path** 、 **File**、 **Drawable**、 **ImageDataSource** 等
 
-> * 目前内置默认实现的**ImageLoader**有 和**PicassoImageLoader**，二者选其一即可，如果二者不满足您的需求，您也可以自己实现一个**ImageLoader**。
+> * 目前内置默认实现的 **ImageLoader** 有和 **PicassoImageLoader** ，二者选其一即可，如果二者不满足您的需求，您也可以自己实现一个 **ImageLoader**。
 
-> * 为了保证**ImageViewer**体积最小化，和用户更多可能的选择性，并未将**Glide**和**Picasso**打包进**aar**。
->>    当您使用了**GlideImageLoader**时，必须依赖[**Glide**](https://github.com/bumptech/glide)库。
->>    当您使用了**PicassoImageLoader**时，必须依赖[**Picasso**](https://github.com/square/picasso)库。
+> * 为了保证 **ImageViewer** 体积最小化，和用户更多可能的选择性，并未将 **Glide** 和 **Picasso** 打包进 **aar**。
+>>    当您使用了 **GlideImageLoader** 时，必须依赖[ **Glide** ](https://github.com/bumptech/glide)库。
+
+>>    当您使用了 **PicassoImageLoader** 时，必须依赖[ **Picasso** ](https://github.com/square/picasso)库。
 
 
 更多使用详情，请查看[app](app)中的源码使用示例
 
 ## 版本记录
+
+#### v1.0.2：2020-12-3
+*  加载的图片数据新增支持ImageDataSource类型，便于扩展
 
 #### v1.0.1：2019-11-15
 *  简化集成步骤

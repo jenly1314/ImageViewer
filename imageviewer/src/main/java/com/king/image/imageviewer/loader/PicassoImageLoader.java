@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import com.king.image.imageviewer.ImageDataSource;
 import com.king.image.imageviewer.ImageViewer;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -23,18 +24,13 @@ public class PicassoImageLoader implements ImageLoader {
 
     @Override
     public void loadImage(Context context, ImageView imageView,Object data, @Nullable Drawable placeholderDrawable,@Nullable Drawable errorDrawable) {
-        RequestCreator requestCreator = null;
-        if(data instanceof Uri){
-            requestCreator = Picasso.get().load((Uri)data);
-        }else if(data instanceof String){
-            requestCreator = Picasso.get().load((String)data);
-        }else if(data instanceof Integer){
-            requestCreator = Picasso.get().load((Integer) data);
-        }else if(data instanceof File){
-            requestCreator = Picasso.get().load((File) data);
+        RequestCreator requestCreator;
+        if(data instanceof ImageDataSource){
+            requestCreator = getRequestCreate(((ImageDataSource) data).getDataSource());
+        }else{
+            requestCreator = getRequestCreate(data);
         }
-
-        if(requestCreator!=null){
+        if(requestCreator != null){
             if(placeholderDrawable != null){
                 requestCreator.placeholder(placeholderDrawable);
             }
@@ -44,5 +40,21 @@ public class PicassoImageLoader implements ImageLoader {
             requestCreator.into(imageView);
         }
 
+    }
+
+    private RequestCreator getRequestCreate(Object data){
+        if(data instanceof Uri){
+            return Picasso.get().load((Uri)data);
+        }
+        if(data instanceof String){
+            return Picasso.get().load((String)data);
+        }
+        if(data instanceof Integer){
+            return Picasso.get().load((Integer) data);
+        }
+        if(data instanceof File){
+            return Picasso.get().load((File) data);
+        }
+        return null;
     }
 }

@@ -98,7 +98,7 @@ public class ImageViewerActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if(mViewerSpec !=null ){
+        if(mViewerSpec != null ){
             mViewerSpec.imageLoader = null;
         }
         super.onDestroy();
