@@ -4,22 +4,29 @@ buildscript {
     apply from: 'versions.gradle'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
-
-        classpath 'com.novoda:bintray-release:0.9.1'
+        classpath "com.android.tools.build:gradle:$versions.gradle"
+        classpath "com.vanniktech:gradle-maven-publish-plugin:$versions.mavenPublish"
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
 
+    }
+}
+
+allprojects {
+    plugins.withId("com.vanniktech.maven.publish") {
+        mavenPublish {
+            sonatypeHost = "S01"
+        }
     }
 }
 

@@ -38,11 +38,15 @@ public class ImageViewerActivity extends AppCompatActivity {
         mViewerSpec = ViewerSpec.INSTANCE;
         setRequestedOrientation(mViewerSpec.orientation);
         setTheme(mViewerSpec.theme);
-        setContentView(R.layout.image_viewer_activity);
+        setContentView(getLayoutId());
         init();
     }
 
-    private void init(){
+    protected int getLayoutId(){
+        return R.layout.image_viewer_activity;
+    }
+
+    protected void init(){
         tvIndicator = findViewById(R.id.tvIndicator);
         ViewPager2 viewPager = findViewById(R.id.viewPager);
 

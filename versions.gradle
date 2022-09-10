@@ -1,7 +1,7 @@
 //App
 def app_version = [:]
-app_version.versionCode = 3
-app_version.versionName = "1.0.2"
+app_version.versionCode = 4
+app_version.versionName = "1.0.3"
 ext.app_version = app_version
 
 //build version
@@ -9,24 +9,26 @@ def build_versions = [:]
 build_versions.minSdk = 16
 build_versions.targetSdk = 29
 build_versions.compileSdk = 29
-build_versions.buildTools = "29.0.2"
+build_versions.buildTools = "29.0.3"
 ext.build_versions = build_versions
 
 // App dependencies
 def versions = [:]
+versions.mavenPublish = '0.18.0'
+versions.gradle = "4.2.2"
 
 versions.appcompat = "1.1.0"
 versions.constraintlayout = "1.1.3"
 versions.junit = "4.12"
 versions.runner = "1.1.1"
 versions.espressoCore = "3.1.1"
-versions.recyclerview = "1.1.0-beta05"
+versions.recyclerview = "1.2.0"
 
-versions.viewpager2 = "1.0.0-beta05"
+versions.viewpager2 = "1.0.0"
 versions.PhotoView = "2.3.0"
 
 versions.glide = "4.10.0"
-versions.fresco = "2.0.0"
+versions.fresco = "2.6.0"
 versions.picasso = "2.71828"
 
 ext.versions = versions
