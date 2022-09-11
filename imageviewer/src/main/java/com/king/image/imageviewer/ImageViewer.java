@@ -42,6 +42,8 @@ public final class ImageViewer {
 
     private Class<?> imageViewerClass;
 
+    private Bundle extrasBundle;
+
     private int placeholderDrawableId;
     private int errorDrawableId;
 
@@ -247,6 +249,16 @@ public final class ImageViewer {
     }
 
     /**
+     * 设置扩展数据 相当于 {@code intent.putExtras(extras)}
+     * @param extras
+     * @return
+     */
+    public ImageViewer extras(Bundle extras) {
+        extrasBundle = extras;
+        return this;
+    }
+
+    /**
      * 初始化资源
      *
      * @param context
@@ -277,22 +289,11 @@ public final class ImageViewer {
      */
     public void start(@NonNull Activity activity, @Nullable View sharedElement) {
         initResource(activity);
-        Intent intent = new Intent(activity, ImageViewerActivity.class);
-
-        if (mOptionsCompat == null) {
-            if (sharedElement != null) {
-                mOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElement, ImageViewerActivity.SHARED_ELEMENT);
-            } else {
-                mOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.iv_anim_in, R.anim.iv_anim_out);
-            }
+        Intent intent = new Intent(activity, imageViewerClass);
+        if(extrasBundle != null){
+            intent.putExtras(extrasBundle);
         }
-
-        Bundle bundle = null;
-        if (mOptionsCompat != null) {
-            bundle = mOptionsCompat.toBundle();
-        }
-
-        activity.startActivity(intent, bundle);
+        activity.startActivity(intent, obtainActivityOptionsCompatBundle(activity, sharedElement));
     }
 
     /**
@@ -313,21 +314,27 @@ public final class ImageViewer {
     public void start(@NonNull Fragment fragment, @Nullable View sharedElement) {
         initResource(fragment.getContext());
         Intent intent = new Intent(fragment.getContext(), imageViewerClass);
+        if(extrasBundle != null){
+            intent.putExtras(extrasBundle);
+        }
+        fragment.startActivity(intent, obtainActivityOptionsCompatBundle(fragment.getActivity(), sharedElement));
+    }
 
+    /**
+     * 获取 ActivityOptionsCompat 转 Bundle
+     * @param activity
+     * @param sharedElement
+     * @return
+     */
+    private Bundle obtainActivityOptionsCompatBundle(Activity activity, @Nullable View sharedElement){
         if (mOptionsCompat == null) {
             if (sharedElement != null) {
-                mOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(fragment.getActivity(), sharedElement, ImageViewerActivity.SHARED_ELEMENT);
+                mOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElement, ImageViewerActivity.SHARED_ELEMENT);
             } else {
-                mOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(fragment.getContext(), R.anim.iv_anim_in, R.anim.iv_anim_out);
+                mOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.iv_anim_in, R.anim.iv_anim_out);
             }
         }
-
-        Bundle bundle = null;
-        if (mOptionsCompat != null) {
-            bundle = mOptionsCompat.toBundle();
-        }
-
-        fragment.startActivity(intent, bundle);
+        return mOptionsCompat.toBundle();
     }
 
 }

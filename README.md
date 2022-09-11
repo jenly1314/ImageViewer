@@ -37,7 +37,7 @@ allprojects {
 2. 在Module的 **build.gradle** 里面添加引入依赖项
 
 ```gradle
-implementation 'com.github.jenly1314:imageviewer:1.0.3'
+implementation 'com.github.jenly1314:imageviewer:1.0.4'
 ```
 
 
@@ -47,16 +47,6 @@ implementation 'com.github.jenly1314:imageviewer:1.0.3'
 implementation 'com.king.image:imageviewer:1.0.2'
 ```
 
-
-###### 如果Gradle出现compile失败的情况，可以在Project的build.gradle里面添加如下：（也可以使用上面的GitPack来complie）
-```gradle
-allprojects {
-    repositories {
-        //...
-        maven { url 'https://dl.bintray.com/jenly/maven' }
-    }
-}
-```
 
 ## 示例
 
@@ -102,6 +92,9 @@ allprojects {
 更多使用详情，请查看[app](app)中的源码使用示例
 
 ## 版本记录
+
+#### v1.0.4：2022-9-11
+*  优化细节
 
 #### v1.0.3：2022-9-10 (从v1.0.3开始发布至 MavenCentral)
 *  看大图界面支持自定义扩展
