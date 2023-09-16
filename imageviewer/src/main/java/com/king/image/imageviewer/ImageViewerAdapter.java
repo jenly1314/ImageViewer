@@ -5,57 +5,63 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
  */
 public class ImageViewerAdapter extends Adapter<ImageViewerAdapter.ImageHolder> {
 
-    private List<?> mDatas;
+    private final List<?> mListData;
 
     private OnItemClickListener mOnItemClickListener;
 
-    public ImageViewerAdapter(List<?> list){
-        this.mDatas = list !=null ? list :  new ArrayList<>();
+    public ImageViewerAdapter(List<?> list) {
+        this.mListData = list != null ? list : new ArrayList<>();
     }
 
     @NonNull
     @Override
     public ImageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vp_image_viewer_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_viewer_list_item, parent, false);
         return new ImageHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageHolder holder, final int position) {
-        holder.displayImage(mDatas.get(position));
-        holder.photoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mOnItemClickListener!=null){
-                    mOnItemClickListener.onClick(v,position);
-                }
+    public void onBindViewHolder(@NonNull ImageHolder holder, int position) {
+        holder.displayImage(mListData.get(position));
+        holder.photoView.setOnClickListener(v -> {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onClick(v, holder.getAdapterPosition());
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mDatas != null ? mDatas.size() : 0;
+        return mListData != null ? mListData.size() : 0;
     }
 
-    void setOnItemClickListener(OnItemClickListener listener){
+    void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
 
-    public interface OnItemClickListener{
-        void onClick(View v,int position);
+    /**
+     * 点击Item监听
+     */
+    public interface OnItemClickListener {
+        /**
+         * 点击Item
+         *
+         * @param v
+         * @param position
+         */
+        void onClick(View v, int position);
     }
 
     static class ImageHolder extends RecyclerView.ViewHolder {
@@ -67,12 +73,11 @@ public class ImageViewerAdapter extends Adapter<ImageViewerAdapter.ImageHolder> 
             photoView = itemView.findViewById(R.id.photoView);
         }
 
-        private void displayImage(Object data){
-            if(ViewerSpec.INSTANCE.imageLoader != null){
-                ViewerSpec.INSTANCE.imageLoader.loadImage(photoView.getContext(),photoView,data,ViewerSpec.INSTANCE.placeholderDrawable,ViewerSpec.INSTANCE.errorDrawable);
+        private void displayImage(Object data) {
+            if (ViewerSpec.INSTANCE.imageLoader != null) {
+                ViewerSpec.INSTANCE.imageLoader.loadImage(photoView.getContext(), photoView, data, ViewerSpec.INSTANCE.placeholderDrawable, ViewerSpec.INSTANCE.errorDrawable);
             }
         }
-
     }
 
 }

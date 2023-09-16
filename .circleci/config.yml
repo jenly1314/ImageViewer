@@ -5,9 +5,10 @@ orbs:
 
 jobs:
   build:
-    executor: android/android
-
+    docker:
+      - image: cimg/android:2023.02
     steps:
       - checkout
       - run:
           command: ./gradlew build
+

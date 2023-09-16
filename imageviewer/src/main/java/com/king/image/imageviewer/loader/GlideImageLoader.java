@@ -18,10 +18,10 @@ import androidx.annotation.Nullable;
  */
 public class GlideImageLoader implements ImageLoader {
     @Override
-    public void loadImage(Context context, ImageView imageView,Object data, @Nullable Drawable placeholderDrawable,@Nullable Drawable errorDrawable) {
-        if(data instanceof ImageDataSource){
+    public void loadImage(Context context, ImageView imageView, Object data, @Nullable Drawable placeholderDrawable, @Nullable Drawable errorDrawable) {
+        if (data instanceof ImageDataSource) {
             Glide.with(context).load(((ImageDataSource) data).getDataSource()).placeholder(placeholderDrawable).error(errorDrawable).into(imageView);
-        }else{
+        } else {
             Glide.with(context).load(data).placeholder(placeholderDrawable).error(errorDrawable).into(imageView);
         }
     }

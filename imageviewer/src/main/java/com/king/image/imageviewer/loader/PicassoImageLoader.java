@@ -23,38 +23,35 @@ import androidx.annotation.Nullable;
 public class PicassoImageLoader implements ImageLoader {
 
     @Override
-    public void loadImage(Context context, ImageView imageView,Object data, @Nullable Drawable placeholderDrawable,@Nullable Drawable errorDrawable) {
+    public void loadImage(Context context, ImageView imageView, Object data, @Nullable Drawable placeholderDrawable, @Nullable Drawable errorDrawable) {
         RequestCreator requestCreator;
-        if(data instanceof ImageDataSource){
+        if (data instanceof ImageDataSource) {
             requestCreator = getRequestCreate(((ImageDataSource) data).getDataSource());
-        }else{
+        } else {
             requestCreator = getRequestCreate(data);
         }
-        if(requestCreator != null){
-            if(placeholderDrawable != null){
-                requestCreator.placeholder(placeholderDrawable);
-            }
-            if(errorDrawable != null){
-                requestCreator.error(errorDrawable);
-            }
-            requestCreator.into(imageView);
+        if (placeholderDrawable != null) {
+            requestCreator.placeholder(placeholderDrawable);
         }
-
+        if (errorDrawable != null) {
+            requestCreator.error(errorDrawable);
+        }
+        requestCreator.into(imageView);
     }
 
-    private RequestCreator getRequestCreate(Object data){
-        if(data instanceof Uri){
-            return Picasso.get().load((Uri)data);
+    private RequestCreator getRequestCreate(Object data) {
+        if (data instanceof Uri) {
+            return Picasso.get().load((Uri) data);
         }
-        if(data instanceof String){
-            return Picasso.get().load((String)data);
+        if (data instanceof String) {
+            return Picasso.get().load((String) data);
         }
-        if(data instanceof Integer){
+        if (data instanceof Integer) {
             return Picasso.get().load((Integer) data);
         }
-        if(data instanceof File){
+        if (data instanceof File) {
             return Picasso.get().load((File) data);
         }
-        return null;
+        throw new IllegalArgumentException("Illegal value type " + data.getClass().getCanonicalName());
     }
 }

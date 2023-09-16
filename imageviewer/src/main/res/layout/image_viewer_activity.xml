@@ -12,6 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/ivIndicatorMarginBottom"
+        android:layout_marginBottom="@dimen/imageViewerIndicatorMarginBottom"
         android:visibility="gone"/>
 </RelativeLayout>

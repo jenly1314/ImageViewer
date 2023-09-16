@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="ivTextSize">16sp</dimen>
-    <dimen name="ivIndicatorMarginBottom">20dp</dimen>
+    <dimen name="imageViewerTextSize">16sp</dimen>
+    <dimen name="imageViewerIndicatorMarginBottom">20dp</dimen>
 
 </resources>

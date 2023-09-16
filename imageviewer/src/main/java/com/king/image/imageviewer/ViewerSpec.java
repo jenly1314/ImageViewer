@@ -13,6 +13,7 @@ import androidx.annotation.StyleRes;
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
  */
+@SuppressWarnings("unused")
 enum ViewerSpec {
 
     INSTANCE;
@@ -36,10 +37,29 @@ enum ViewerSpec {
 
     int orientation = ActivityInfo.SCREEN_ORIENTATION_BEHIND;
 
+    public int getPosition() {
+        return position;
+    }
+
+    public List<?> getListData() {
+        return listData;
+    }
+
+    public boolean isShowIndicator() {
+        return isShowIndicator;
+    }
+
+    public int getTheme() {
+        return theme;
+    }
+
+    public int getOrientation() {
+        return orientation;
+    }
+
     void reset(){
         position = 0;
         listData = null;
-        imageLoader = null;
         isShowIndicator = false;
         placeholderDrawable = null;
         errorDrawable = null;

@@ -9,12 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import com.king.image.imageviewer.loader.ImageLoader;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +16,12 @@ import androidx.annotation.StyleRes;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.king.image.imageviewer.loader.ImageLoader;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ImageViewer 是一个图片查看器。一般用来查看图片详情或查看大图时使用。
@@ -34,9 +34,11 @@ import androidx.fragment.app.Fragment;
  *
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
  */
+@SuppressWarnings("unused")
 public final class ImageViewer {
+    public static final String SHARED_ELEMENT = "shared_element";
 
-    private ViewerSpec mViewerSpec;
+    private final ViewerSpec mViewerSpec;
 
     private ActivityOptionsCompat mOptionsCompat;
 
@@ -250,6 +252,7 @@ public final class ImageViewer {
 
     /**
      * 设置扩展数据 相当于 {@code intent.putExtras(extras)}
+     *
      * @param extras
      * @return
      */
@@ -290,7 +293,7 @@ public final class ImageViewer {
     public void start(@NonNull Activity activity, @Nullable View sharedElement) {
         initResource(activity);
         Intent intent = new Intent(activity, imageViewerClass);
-        if(extrasBundle != null){
+        if (extrasBundle != null) {
             intent.putExtras(extrasBundle);
         }
         activity.startActivity(intent, obtainActivityOptionsCompatBundle(activity, sharedElement));
@@ -314,24 +317,26 @@ public final class ImageViewer {
     public void start(@NonNull Fragment fragment, @Nullable View sharedElement) {
         initResource(fragment.getContext());
         Intent intent = new Intent(fragment.getContext(), imageViewerClass);
-        if(extrasBundle != null){
+        if (extrasBundle != null) {
             intent.putExtras(extrasBundle);
         }
+
         fragment.startActivity(intent, obtainActivityOptionsCompatBundle(fragment.getActivity(), sharedElement));
     }
 
     /**
      * 获取 ActivityOptionsCompat 转 Bundle
-     * @param activity
-     * @param sharedElement
+     *
+     * @param activity {@link Activity}
+     * @param sharedElement 共享元素
      * @return
      */
-    private Bundle obtainActivityOptionsCompatBundle(Activity activity, @Nullable View sharedElement){
+    private Bundle obtainActivityOptionsCompatBundle(Activity activity, @Nullable View sharedElement) {
         if (mOptionsCompat == null) {
             if (sharedElement != null) {
-                mOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElement, ImageViewerActivity.SHARED_ELEMENT);
+                mOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElement, SHARED_ELEMENT);
             } else {
-                mOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.iv_anim_in, R.anim.iv_anim_out);
+                mOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.image_viewer_anim_in, R.anim.image_viewer_anim_out);
             }
         }
         return mOptionsCompat.toBundle();
