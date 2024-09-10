@@ -45,7 +45,7 @@ ImageViewer for Android 是一个图片查看器，一般用来查看图片详�
 
 * **ImageViewer** 一次可以查看多张图片或单张图片，支持的类型可以是 **Uri**、 **url** 、 **path** 、 **File**、 **DrawableRes**、 **ImageDataSource** 等。
 
-* 目前内置默认实现 **ImageLoader** 的有 **GlideImageLoader** 和 **PicassoImageLoader** ，二者选其一即可，如果二者不满足您的需求，您也可以自己实现一个 **ImageLoader**。
+* 目前内置默认实现 **ImageLoader** 的有 **GlideImageLoader** 和 **PicassoImageLoader** ，二者选其一即可，如果二者不满足您的需求，您也可以自己实现一个 **ImageLoader** 。
 
 * 为了保证 **ImageViewer** 体积最小化，让用户有更多选择的可能性， **ImageViewer** 仅编译时用到了 **Glide** 和 **Picasso** 。
 
@@ -55,27 +55,28 @@ ImageViewer for Android 是一个图片查看器，一般用来查看图片详�
 
 ### 代码示例
 
+示例一：简单调用
+
 ```Java
-    //图片查看器 - 简单调用
 
 // data 可以多张图片List或单张图片，支持的类型可以是{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
-    ImageViewer.load(data)//要加载的图片数据，单张或多张
-            .imageLoader(new GlideImageLoader())//加载器，imageLoader必须配置，目前内置的有GlideImageLoader或PicassoImageLoader，也可以自己实现
-            .start(activity,sharedElement);//activity or fragment, 跳转时的共享元素视图
+ImageViewer.load(data)//要加载的图片数据，单张或多张
+        .imageLoader(new GlideImageLoader())//加载器，imageLoader必须配置，目前内置的有GlideImageLoader或PicassoImageLoader，也可以自己实现
+        .start(activity,sharedElement);//activity or fragment, 跳转时的共享元素视图
 
 ```
 
+示例二：根据需要修改一些配置
 ```Java
-    //图片查看器
 
 // data 可以多张图片List或单张图片，支持的类型可以是{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
-    ImageViewer.load(data)//要加载的图片数据，单张或多张
-            .selection(position)//当前选中位置，默认：0
-            .indicator(true)//是否显示指示器，默认不显示
-            .imageLoader(new GlideImageLoader())//加载器，imageLoader必须配置，目前内置的有GlideImageLoader或PicassoImageLoader，也可以自己实现
-            .theme(R.style.ImageViewerTheme)//设置主题风格，默认：R.style.ImageViewerTheme
-            .orientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//设置屏幕方向,默认：ActivityInfo.SCREEN_ORIENTATION_BEHIND
-            .start(activity,sharedElement);//activity or fragment, 跳转时的共享元素视图
+ImageViewer.load(data)//要加载的图片数据，单张或多张
+        .selection(position)//当前选中位置，默认：0
+        .indicator(true)//是否显示指示器，默认不显示
+        .imageLoader(new GlideImageLoader())//加载器，imageLoader必须配置，目前内置的有GlideImageLoader或PicassoImageLoader，也可以自己实现
+        .theme(R.style.ImageViewerTheme)//设置主题风格，默认：R.style.ImageViewerTheme
+        .orientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//设置屏幕方向,默认：ActivityInfo.SCREEN_ORIENTATION_BEHIND
+        .start(activity,sharedElement);//activity or fragment, 跳转时的共享元素视图
 
 ```
 
