@@ -1,6 +1,9 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.vanniktech.maven.publish'
-//apply from: 'bintray.gradle'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.dokka'
+    id 'com.vanniktech.maven.publish'
+}
 
 android {
     namespace 'com.king.image.imageviewer'

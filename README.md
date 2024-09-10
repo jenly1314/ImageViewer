@@ -4,9 +4,7 @@
 
 [![Download](https://img.shields.io/badge/download-App-blue.svg)](https://raw.githubusercontent.com/jenly1314/ImageViewer/master/app/release/app-release.apk)
 [![MavenCentral](https://img.shields.io/maven-central/v/com.github.jenly1314/imageviewer)](https://repo1.maven.org/maven2/com/github/jenly1314/imageviewer)
-[![JCenter](https://img.shields.io/badge/JCenter-1.0.2-46C018.svg)](https://bintray.com/beta/#/jenly/maven/imageviewer)
 [![JitPack](https://jitpack.io/v/jenly1314/ImageViewer.svg)](https://jitpack.io/#jenly1314/ImageViewer)
-[![CI](https://travis-ci.org/jenly1314/ImageViewer.svg?branch=master)](https://travis-ci.org/jenly1314/ImageViewer)
 [![CircleCI](https://circleci.com/gh/jenly1314/ImageViewer.svg?style=svg)](https://circleci.com/gh/jenly1314/ImageViewer)
 [![API](https://img.shields.io/badge/API-16%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=16)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/mit-license.php)
@@ -81,29 +79,22 @@ ImageViewer for Android 是一个图片查看器，一般用来查看图片详�
 
 ```
 
-更多使用详情，请查看[app](app)中的源码使用示例或直接查看 [API帮助文档](https://jitpack.io/com/github/jenly1314/ImageViewer/latest/javadoc/)
+更多使用详情，请查看[app](app)中的源码使用示例或直接查看 [API帮助文档](https://jenly1314.github.io/ImageViewer/api/)
 
-## 版本记录
+## 相关推荐
+
+- [DrawBoard](https://dgithub.xyz/jenly1314/DrawBoard) 一个自定义View实现的画板；方便对图片进行编辑和各种涂鸦相关操作。
+
+<!-- end -->
+
+## 版本日志
 
 #### v1.1.0：2023-9-16
 * 更新Gradle至v7.3.3
 * 更新compileSdk至30
 * 优化细节
 
-#### v1.0.4：2022-9-11
-* 优化细节
-
-#### v1.0.3：2022-9-10 (从v1.0.3开始发布至 MavenCentral)
-* 看大图界面支持自定义扩展
-
-#### v1.0.2：2020-12-3
-* 加载的图片数据新增支持ImageDataSource类型，便于扩展
-
-#### v1.0.1：2019-11-15
-* 简化集成步骤
-
-#### v1.0.0：2019-11-7
-* ImageViewer初始版本
+#### [查看更多版本日志](CHANGELOG.md)
 
 ## 赞赏
 
