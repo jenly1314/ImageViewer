@@ -1,76 +1,60 @@
-package com.king.imageviewer.app.adapter;
+package com.king.imageviewer.app.adapter
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.king.imageviewer.app.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.king.image.imageviewer.ImageViewerSpec
+import com.king.imageviewer.app.R
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
+ * <p>
+ * <a href="https://github.com/jenly1314">Follow me</a>
  */
-public class PhotoAdapter extends Adapter<PhotoAdapter.PhotoHolder> {
+class PhotoAdapter(private val listData: List<String>) :
+    RecyclerView.Adapter<PhotoAdapter.PhotoHolder>() {
 
-    private List<String> mDatas;
+    private var mOnItemClickListener: OnItemClickListener? = null
 
-    private OnItemClickListener mOnItemClickListener;
-
-    public PhotoAdapter(List<String> list){
-        this.mDatas = list !=null ? list : new ArrayList<String>();
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoHolder {
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.rv_photo_item, parent, false)
+        return PhotoHolder(view)
     }
 
-    @NonNull
-    @Override
-    public PhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_photo_item,parent,false);
-        return new PhotoHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull PhotoHolder holder, final int position) {
-        holder.displayImage(mDatas.get(position));
-        holder.imageView.setOnClickListener(v -> {
-            if(mOnItemClickListener!=null){
-                mOnItemClickListener.onClick(v, holder.getAdapterPosition());
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDatas != null ? mDatas.size() : 0;
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener){
-        this.mOnItemClickListener = listener;
-    }
-
-    public interface OnItemClickListener{
-        void onClick(View v, int position);
-    }
-
-    static class PhotoHolder extends RecyclerView.ViewHolder {
-
-        ImageView imageView;
-
-        private PhotoHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.iv);
+    override fun onBindViewHolder(holder: PhotoHolder, position: Int) {
+        holder.displayImage(listData[position])
+        holder.imageView.setOnClickListener { v: View? ->
+            mOnItemClickListener?.onClick(v, holder.adapterPosition)
         }
-
-        private void displayImage(String url){
-            Glide.with(imageView).load(url).into(imageView);
-        }
-
     }
 
+    override fun getItemCount(): Int {
+        return listData.size
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener?) {
+        this.mOnItemClickListener = listener
+    }
+
+    interface OnItemClickListener {
+        fun onClick(v: View?, position: Int)
+    }
+
+    class PhotoHolder(itemView: View) : ViewHolder(itemView) {
+        val imageView: ImageView = itemView.findViewById(R.id.imageView)
+
+        fun displayImage(url: String) {
+            ImageViewerSpec.imageLoader()?.loadImage(
+                imageView,
+                url,
+                ContextCompat.getDrawable(itemView.context, R.drawable.ic_image_placeholder),
+                ContextCompat.getDrawable(itemView.context, R.drawable.ic_image_error),
+            )
+        }
+    }
 }

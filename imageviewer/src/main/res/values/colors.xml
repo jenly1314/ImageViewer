@@ -3,6 +3,6 @@
 
     <color name="imageViewerColorPrimaryDark">#FF000000</color>
     <color name="imageViewerWindowBackground">#FF000000</color>
-    <color name="imageViewerTextColor">#FFFFFFFF</color>
+    <color name="imageViewerTextColor">#FFCCCCCC</color>
 
 </resources>

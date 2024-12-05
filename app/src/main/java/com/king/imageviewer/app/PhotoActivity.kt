@@ -1,36 +1,34 @@
-package com.king.imageviewer.app;
+package com.king.imageviewer.app
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.king.image.imageviewer.ImageViewer;
-import com.king.image.imageviewer.loader.GlideImageLoader;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import com.king.image.imageviewer.ImageViewer
+import com.king.image.imageviewer.ImageViewerSpec
+import com.king.image.imageviewer.loader.GlideImageLoader
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
+ * <p>
+ * <a href="https://github.com/jenly1314">Follow me</a>
  */
-public class PhotoActivity extends AppCompatActivity {
+class PhotoActivity: AppCompatActivity() {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.photo_activity);
-        init();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.photo_activity)
+        init()
     }
 
-    private void init(){
-        ImageView iv = findViewById(R.id.iv);
-        Glide.with(this).load(R.drawable.gif).into(iv);
+    private fun init() {
+        val imageView = findViewById<ImageView>(R.id.imageView)
+        ImageViewerSpec.imageLoader()?.loadImage(imageView, R.drawable.gif)
     }
 
-    public void onClick(View v){
+    fun onClick(v: View?) {
         ImageViewer.load(R.drawable.gif)
-                .imageLoader(new GlideImageLoader())
-                .start(this,v);
+//            .imageLoader(GlideImageLoader()) // 设置图片加载器；也可通过ImageViewer.setGlobalDefaultImageLoader(GlideImageLoader()) 设置全局默认的图片加载器
+            .start(this, v)
     }
 }

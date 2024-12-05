@@ -3,7 +3,8 @@
     <application>
 
         <activity android:name="com.king.image.imageviewer.ImageViewerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"/>
 
     </application>
 </manifest>

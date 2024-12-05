@@ -1,22 +1,21 @@
-package com.king.image.imageviewer;
+package com.king.image.imageviewer
 
-import android.net.Uri;
-
-import java.io.File;
-
-import androidx.annotation.DrawableRes;
+import android.net.Uri
+import androidx.annotation.DrawableRes
+import java.io.File
 
 /**
- * 图片数据源；当数据集合为对象时，可通过实现此接口来将图片数据源直接返回；
+ * 图片数据源；当数据集合为自定义对象时，可通过实现此接口来将图片数据源直接返回
  *
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
+ * <p>
+ * <a href="https://github.com/jenly1314">Follow me</a>
  */
-public interface ImageDataSource {
-
+interface ImageDataSource {
     /**
      * 返回图片数据源
      *
-     * @return {@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}
+     * @return 返回支持[Uri]、 `url`、 `filePath`、[File]、 [DrawableRes]等类型
      */
-    Object getDataSource();
+    fun getDataSource(): Any?
 }

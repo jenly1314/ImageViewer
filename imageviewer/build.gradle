@@ -26,6 +26,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
     lintOptions {
         abortOnError false
         warning 'InvalidPackage'
@@ -33,17 +36,17 @@ android {
 }
 
 dependencies {
-    api "androidx.appcompat:appcompat:$versions.appcompat"
     testImplementation "junit:junit:$versions.junit"
-    androidTestImplementation "androidx.test:runner:$versions.runner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espressoCore"
+    androidTestImplementation "androidx.test.ext:junit:$versions.android_ext_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+
+    implementation "androidx.appcompat:appcompat:$versions.appcompat"
 
     api "androidx.viewpager2:viewpager2:$versions.viewpager2"
-    api "com.github.chrisbanes:PhotoView:$versions.PhotoView"
+    api "com.github.chrisbanes:PhotoView:$versions.photoview"
 
     compileOnly "com.github.bumptech.glide:glide:$versions.glide"
-    annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
-
     compileOnly "com.squareup.picasso:picasso:$versions.picasso"
+    compileOnly "io.coil-kt:coil:$versions.coil"
 
 }

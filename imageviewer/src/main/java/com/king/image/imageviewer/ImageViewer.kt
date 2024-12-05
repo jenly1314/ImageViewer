@@ -1,128 +1,51 @@
-package com.king.image.imageviewer;
+package com.king.image.imageviewer
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.os.Bundle
+import android.view.View
+import androidx.annotation.DrawableRes
+import androidx.annotation.StyleRes
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.king.image.imageviewer.loader.ImageLoader
+import java.io.File
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StyleRes;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
-import com.king.image.imageviewer.loader.ImageLoader;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * ImageViewer 是一个图片查看器。一般用来查看图片详情或查看大图时使用。
  * <p>
- * {@link ImageViewer} 支持加载{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
- * 如果使用{@code GlideImageLoader}会支持的类型会更多。
- * 使用{@code ImageViewer}时，必须配置一个实现的{@link ImageLoader}。
- * 目前内置默认实现的{@link ImageLoader}有{@code GlideImageLoader} 和{@code PicassoImageLoader}
- * 如果不满足您的需求，您也可以自己实现一个{@link ImageLoader}
+ * [ImageViewer.load]支持加载[Uri]、 `url`、 `filePath`、[File]、 [DrawableRes]、[ImageDataSource]等类型；
+ * 对于加载多张图片数据也可以是支持类型对应的[List]或[Array]
  *
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
+ * <p>
+ * <a href="https://github.com/jenly1314">Follow me</a>
  */
-@SuppressWarnings("unused")
-public final class ImageViewer {
-    public static final String SHARED_ELEMENT = "shared_element";
+class ImageViewer private constructor(model: Any) {
 
-    private final ViewerSpec mViewerSpec;
+    private var mOptionsCompat: ActivityOptionsCompat? = null
 
-    private ActivityOptionsCompat mOptionsCompat;
+    private var imageViewerClass: Class<*>
 
-    private Class<?> imageViewerClass;
+    private var extrasBundle: Bundle? = null
 
-    private Bundle extrasBundle;
+    private var placeholderDrawableId = 0
+    private var errorDrawableId = 0
 
-    private int placeholderDrawableId;
-    private int errorDrawableId;
-
-    private ImageViewer(@NonNull List<?> data) {
-        mViewerSpec = ViewerSpec.INSTANCE;
-        mViewerSpec.reset();
-        mViewerSpec.listData = data;
-        imageViewerClass = ImageViewerActivity.class;
-    }
-
-    private ImageViewer(@NonNull Object data) {
-        mViewerSpec = ViewerSpec.INSTANCE;
-        mViewerSpec.reset();
-        List<Object> listData = new ArrayList<>();
-        listData.add(data);
-        mViewerSpec.listData = listData;
-        imageViewerClass = ImageViewerActivity.class;
-    }
-
-    /**
-     * 加载图片
-     *
-     * @param data List中的泛型支持{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
-     * @return
-     */
-    public static ImageViewer load(@NonNull List<?> data) {
-        return new ImageViewer(data);
-    }
-
-    /**
-     * 加载图片
-     *
-     * @param path 支持{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
-     * @return
-     */
-    public static ImageViewer load(@NonNull String path) {
-        return new ImageViewer(path);
-    }
-
-    /**
-     * 加载图片
-     *
-     * @param uri 支持{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
-     * @return
-     */
-    public static ImageViewer load(@NonNull Uri uri) {
-        return new ImageViewer(uri);
-    }
-
-    /**
-     * 加载图片
-     *
-     * @param resourceId 支持{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
-     * @return
-     */
-    public static ImageViewer load(@DrawableRes int resourceId) {
-        return new ImageViewer(resourceId);
-    }
-
-    /**
-     * 加载图片
-     *
-     * @param file 支持{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
-     * @return
-     */
-    public static ImageViewer load(@NonNull File file) {
-        return new ImageViewer(file);
-    }
-
-    /**
-     * 加载图片
-     *
-     * @param data 支持{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
-     * @return
-     */
-    public static ImageViewer load(@NonNull Object data) {
-        return new ImageViewer(data);
+    init {
+        ImageViewerSpec.reset()
+        when (model) {
+            is List<*> -> ImageViewerSpec.listData = model
+            is Array<*> -> ImageViewerSpec.listData = model.toList()
+            else -> ImageViewerSpec.listData = listOf(model)
+        }
+        imageViewerClass = ImageViewerActivity::class.java
     }
 
     /**
@@ -131,21 +54,21 @@ public final class ImageViewer {
      * @param position 默认：0
      * @return
      */
-    public ImageViewer selection(int position) {
-        mViewerSpec.position = position;
-        return this;
+    fun selection(position: Int): ImageViewer {
+        ImageViewerSpec.position = position
+        return this
     }
 
     /**
      * 设置占位图
      *
-     * @param resourceId
+     * @param drawableResId
      * @return
      */
-    public ImageViewer placeholder(@DrawableRes int resourceId) {
-        this.placeholderDrawableId = resourceId;
-        this.mViewerSpec.placeholderDrawable = null;
-        return this;
+    fun placeholder(@DrawableRes drawableResId: Int): ImageViewer {
+        this.placeholderDrawableId = drawableResId
+        ImageViewerSpec.placeholderDrawable = null
+        return this
     }
 
     /**
@@ -154,22 +77,22 @@ public final class ImageViewer {
      * @param drawable
      * @return
      */
-    public ImageViewer placeholder(@Nullable Drawable drawable) {
-        this.mViewerSpec.placeholderDrawable = drawable;
-        this.placeholderDrawableId = 0;
-        return this;
+    fun placeholder(drawable: Drawable?): ImageViewer {
+        ImageViewerSpec.placeholderDrawable = drawable
+        this.placeholderDrawableId = 0
+        return this
     }
 
     /**
      * 设置加载失败时显示的图片
      *
-     * @param resourceId
+     * @param drawableResId
      * @return
      */
-    public ImageViewer error(@DrawableRes int resourceId) {
-        this.errorDrawableId = resourceId;
-        this.mViewerSpec.errorDrawable = null;
-        return this;
+    fun error(@DrawableRes drawableResId: Int): ImageViewer {
+        this.errorDrawableId = drawableResId
+        ImageViewerSpec.errorDrawable = null
+        return this
     }
 
     /**
@@ -178,21 +101,22 @@ public final class ImageViewer {
      * @param drawable
      * @return
      */
-    public ImageViewer error(@Nullable Drawable drawable) {
-        this.mViewerSpec.errorDrawable = drawable;
-        this.errorDrawableId = 0;
-        return this;
+    fun error(drawable: Drawable?): ImageViewer {
+        ImageViewerSpec.errorDrawable = drawable
+        this.errorDrawableId = 0
+        return this
     }
 
     /**
-     * 设置图片加载器
+     * 设置图片加载器；如果有多处使用到[ImageViewer]，也可以使用[ImageViewer.setGlobalDefaultImageLoader]来
+     * 设置全局默认的图片加载器；
      *
      * @param imageLoader
      * @return
      */
-    public ImageViewer imageLoader(@NonNull ImageLoader imageLoader) {
-        this.mViewerSpec.imageLoader = imageLoader;
-        return this;
+    fun imageLoader(imageLoader: ImageLoader): ImageViewer {
+        ImageViewerSpec.imageLoader = imageLoader
+        return this
     }
 
     /**
@@ -201,9 +125,25 @@ public final class ImageViewer {
      * @param showIndicator 默认：false
      * @return
      */
-    public ImageViewer indicator(boolean showIndicator) {
-        this.mViewerSpec.isShowIndicator = showIndicator;
-        return this;
+    fun showIndicator(showIndicator: Boolean): ImageViewer {
+        ImageViewerSpec.showIndicator = showIndicator
+        return this
+    }
+
+    /**
+     * 设置是否显示指示器
+     *
+     * @param showIndicator 默认：false
+     * @return
+     *
+     * @Deprecated 使用[showIndicator]
+     */
+    @Deprecated(
+        message = "This function is deprecated. Use showIndicator() instead.",
+        replaceWith = ReplaceWith("showIndicator(showIndicator)"),
+    )
+    fun indicator(showIndicator: Boolean): ImageViewer {
+        return showIndicator(showIndicator)
     }
 
     /**
@@ -212,31 +152,31 @@ public final class ImageViewer {
      * @param optionsCompat
      * @return
      */
-    public ImageViewer activityOptionsCompat(ActivityOptionsCompat optionsCompat) {
-        this.mOptionsCompat = optionsCompat;
-        return this;
+    fun activityOptionsCompat(optionsCompat: ActivityOptionsCompat?): ImageViewer {
+        this.mOptionsCompat = optionsCompat
+        return this
     }
 
     /**
      * 设置屏幕方向
      *
-     * @param orientation 默认：{@link ActivityInfo#SCREEN_ORIENTATION_BEHIND}
+     * @param orientation 默认：[ActivityInfo.SCREEN_ORIENTATION_BEHIND]
      * @return
      */
-    public ImageViewer orientation(int orientation) {
-        this.mViewerSpec.orientation = orientation;
-        return this;
+    fun orientation(orientation: Int): ImageViewer {
+        ImageViewerSpec.orientation = orientation
+        return this
     }
 
     /**
      * 设置主题风格
      *
-     * @param theme 默认：{@link R.style#ImageViewerTheme}
+     * @param theme 默认：[R.style.ImageViewerTheme]
      * @return
      */
-    public ImageViewer theme(@StyleRes int theme) {
-        this.mViewerSpec.theme = theme;
-        return this;
+    fun theme(@StyleRes theme: Int): ImageViewer {
+        ImageViewerSpec.theme = theme
+        return this
     }
 
     /**
@@ -245,20 +185,20 @@ public final class ImageViewer {
      * @param cls
      * @return
      */
-    public ImageViewer imageViewerClass(Class<?> cls) {
-        imageViewerClass = cls;
-        return this;
+    fun imageViewerClass(cls: Class<*>): ImageViewer {
+        imageViewerClass = cls
+        return this
     }
 
     /**
-     * 设置扩展数据 相当于 {@code intent.putExtras(extras)}
+     * 设置扩展数据 相当于 `intent.putExtras(extras)`
      *
      * @param extras
      * @return
      */
-    public ImageViewer extras(Bundle extras) {
-        extrasBundle = extras;
-        return this;
+    fun extras(extras: Bundle?): ImageViewer {
+        extrasBundle = extras
+        return this
     }
 
     /**
@@ -266,80 +206,109 @@ public final class ImageViewer {
      *
      * @param context
      */
-    private void initResource(Context context) {
-        if (mViewerSpec.placeholderDrawable == null && placeholderDrawableId != 0) {
-            mViewerSpec.placeholderDrawable = ContextCompat.getDrawable(context, placeholderDrawableId);
+    private fun initResource(context: Context) {
+        if (ImageViewerSpec.placeholderDrawable == null && placeholderDrawableId != 0) {
+            ImageViewerSpec.placeholderDrawable =
+                ContextCompat.getDrawable(context, placeholderDrawableId)
         }
-        if (mViewerSpec.errorDrawable == null && errorDrawableId != 0) {
-            mViewerSpec.errorDrawable = ContextCompat.getDrawable(context, errorDrawableId);
+        if (ImageViewerSpec.errorDrawable == null && errorDrawableId != 0) {
+            ImageViewerSpec.errorDrawable = ContextCompat.getDrawable(context, errorDrawableId)
         }
     }
 
     /**
      * 启动
      *
-     * @param activity 当前的{@link Activity}
-     */
-    public void start(@NonNull Activity activity) {
-        start(activity, null);
-    }
-
-    /**
-     * 启动
-     *
-     * @param activity      当前的{@link Activity}
-     * @param sharedElement 过渡动画共享元素
-     */
-    public void start(@NonNull Activity activity, @Nullable View sharedElement) {
-        initResource(activity);
-        Intent intent = new Intent(activity, imageViewerClass);
-        if (extrasBundle != null) {
-            intent.putExtras(extrasBundle);
-        }
-        activity.startActivity(intent, obtainActivityOptionsCompatBundle(activity, sharedElement));
-    }
-
-    /**
-     * 启动
-     *
-     * @param fragment 当前的{@link Fragment}
-     */
-    public void start(@NonNull Fragment fragment) {
-        start(fragment, null);
-    }
-
-    /**
-     * 启动
-     *
-     * @param fragment      当前的{@link Fragment}
+     * @param activity      当前的[Activity]
      * @param sharedElement 过渡动画的共享元素
      */
-    public void start(@NonNull Fragment fragment, @Nullable View sharedElement) {
-        initResource(fragment.getContext());
-        Intent intent = new Intent(fragment.getContext(), imageViewerClass);
-        if (extrasBundle != null) {
-            intent.putExtras(extrasBundle);
-        }
+    @JvmOverloads
+    fun start(activity: Activity, sharedElement: View? = null) {
+        checkNotNull(ImageViewerSpec.imageLoader())
+        initResource(activity)
 
-        fragment.startActivity(intent, obtainActivityOptionsCompatBundle(fragment.getActivity(), sharedElement));
+        activity.startActivity(
+            obtainImageViewerIntent(activity),
+            obtainActivityOptionsCompatBundle(activity, sharedElement),
+        )
+    }
+
+    /**
+     * 启动
+     *
+     * @param fragment      当前的[Fragment]
+     * @param sharedElement 过渡动画的共享元素
+     */
+    @JvmOverloads
+    fun start(fragment: Fragment, sharedElement: View? = null) {
+        checkNotNull(ImageViewerSpec.imageLoader())
+        val context = fragment.requireContext()
+        initResource(context)
+
+        fragment.startActivity(
+            obtainImageViewerIntent(context),
+            obtainActivityOptionsCompatBundle(fragment.requireActivity(), sharedElement),
+        )
+    }
+
+    /**
+     * 获取ImageViewer对应的[Intent]
+     */
+    private fun obtainImageViewerIntent(context: Context): Intent {
+        return Intent(context, imageViewerClass).apply {
+            extrasBundle?.also {
+                this.putExtras(it)
+            }
+        }
     }
 
     /**
      * 获取 ActivityOptionsCompat 转 Bundle
      *
-     * @param activity {@link Activity}
+     * @param activity [Activity]
      * @param sharedElement 共享元素
      * @return
      */
-    private Bundle obtainActivityOptionsCompatBundle(Activity activity, @Nullable View sharedElement) {
+    private fun obtainActivityOptionsCompatBundle(
+        activity: Activity,
+        sharedElement: View?,
+    ): Bundle? {
         if (mOptionsCompat == null) {
-            if (sharedElement != null) {
-                mOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElement, SHARED_ELEMENT);
-            } else {
-                mOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.image_viewer_anim_in, R.anim.image_viewer_anim_out);
-            }
+            val sharedView = sharedElement ?: activity.findViewById(android.R.id.content)
+            mOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity, sharedView, SHARED_ELEMENT,
+            )
         }
-        return mOptionsCompat.toBundle();
+        return mOptionsCompat!!.toBundle()
     }
 
+    companion object {
+
+        const val SHARED_ELEMENT: String = "shared_element"
+
+        /**
+         * 加载图片
+         *
+         * @param model 支持[Uri]、 `url`、 `filePath`、[File]、 [DrawableRes]、[ImageDataSource]等类型；
+         * 对于加载多张图片数据也可以是支持类型对应的[List]或[Array]
+         *
+         * @return
+         */
+        @JvmStatic
+        fun load(model: Any): ImageViewer {
+            return ImageViewer(model)
+        }
+
+        /**
+         * 设置全局默认的图片加载器；当设置了全局默认的图片加载器后，就可以在使用[ImageViewer]实例时，不用再单独
+         * 调用[ImageViewer.imageLoader]去设置图片加载器了。
+         *
+         * @param imageLoader
+         * @return
+         */
+        @JvmStatic
+        fun setGlobalDefaultImageLoader(imageLoader: ImageLoader) {
+            ImageViewerSpec.globalDefaultImageLoader = imageLoader
+        }
+    }
 }

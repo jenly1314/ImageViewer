@@ -1,63 +1,56 @@
-package com.king.imageviewer.app;
+package com.king.imageviewer.app
 
-import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.view.View;
-
-import com.king.image.imageviewer.ImageViewer;
-import com.king.image.imageviewer.loader.GlideImageLoader;
-import com.king.imageviewer.app.adapter.PhotoAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.content.pm.ActivityInfo
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.king.image.imageviewer.ImageViewer
+import com.king.imageviewer.app.adapter.PhotoAdapter
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
+ * <p>
+ * <a href="https://github.com/jenly1314">Follow me</a>
  */
-public class PhotoListActivity extends AppCompatActivity {
+class PhotoListActivity : AppCompatActivity() {
 
-    private List<String> listData;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.photo_list_activity);
-        init();
+    private val listData: List<String> by lazy {
+        List(16) {
+            "https://jenly1314.github.io/medias/featureimages/${it.plus(1)}.jpg"
+        }
     }
 
-    private void init(){
-        listData = new ArrayList<>();
-        for (int i=1;i<20;i++){
-            listData.add(String.format("https://jenly1314.gitee.io/medias/featureimages/%d.jpg",i));
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.photo_list_activity)
+        init()
+    }
 
-        PhotoAdapter adapter = new PhotoAdapter(listData);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(PhotoListActivity.this,2));
+    private fun init() {
+        val adapter = PhotoAdapter(listData)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
 
-        recyclerView.setAdapter(adapter);
+        recyclerView.adapter = adapter
 
-        adapter.setOnItemClickListener(new PhotoAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(View v, int position) {
-                //图片查看器
-
-                // data 可以多张图片List或单张图片，支持的类型可以是{@link Uri}, {@code url}, {@code path},{@link File}, {@link DrawableRes resId}…等
-                ImageViewer.load(listData)//要加载的图片数据，单张或多张
-                        .selection(position)//当前选中位置
-                        .indicator(true)//是否显示指示器，默认不显示
-                        .imageLoader(new GlideImageLoader())//加载器，*必须配置，目前内置的有GlideImageLoader或PicassoImageLoader，也可以自己实现
-//                      .imageLoader(new PicassoImageLoader())
-                        .theme(R.style.ImageViewerTheme)//设置主题风格，默认：R.style.ImageViewerTheme
-                        .orientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//设置屏幕方向,默认：ActivityInfo.SCREEN_ORIENTATION_BEHIND
-                        .start(PhotoListActivity.this,v);
-            }
-        });
-
+        adapter.setOnItemClickListener(
+            object : PhotoAdapter.OnItemClickListener {
+                override fun onClick(v: View?, position: Int) {
+                    ImageViewer.load(listData) // 要加载的图片数据，单张或多张
+//                        .imageLoader(CoilImageLoader()) // 图片加载器，目前内置的有CoilImageLoader、GlideImageLoader和PicassoImageLoader，也可以自己实现
+//                        .imageLoader(GlideImageLoader())
+//                        .imageLoader(PicassoImageLoader())
+                        .selection(position) // 选中位置
+                        .showIndicator(true) // 是否显示指示器，默认不显示
+//                        .placeholder(R.drawable.ic_image_placeholder) // 设置占位图
+//                        .error(R.drawable.ic_image_error) // 设置加载失败时显示的图片
+//                        .theme(R.style.ImageViewerTheme)// 设置主题风格，默认：R.style.ImageViewerTheme
+                        .orientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) // 设置屏幕方向,默认：ActivityInfo.SCREEN_ORIENTATION_BEHIND
+                        .start(this@PhotoListActivity, v)
+                }
+            },
+        )
     }
 }

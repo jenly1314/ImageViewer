@@ -1,4 +1,7 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
     namespace 'com.king.imageviewer.app'
@@ -24,6 +27,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 
     lintOptions {
         abortOnError false
@@ -32,16 +38,19 @@ android {
 }
 
 dependencies {
+    testImplementation "junit:junit:$versions.junit"
+    androidTestImplementation "androidx.test.ext:junit:$versions.android_ext_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
-    testImplementation "junit:junit:$versions.junit"
-    androidTestImplementation "androidx.test:runner:$versions.runner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espressoCore"
 
     implementation "com.github.bumptech.glide:glide:$versions.glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
 
     implementation "com.squareup.picasso:picasso:$versions.picasso"
+
+    implementation "io.coil-kt:coil:$versions.coil"
 
     implementation project(path: ':imageviewer')
 }

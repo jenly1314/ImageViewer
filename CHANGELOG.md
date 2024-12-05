@@ -1,5 +1,13 @@
 ## 版本日志
 
+#### v1.2.0：2024-12-6
+* 代码全部改为使用`kotlin`
+* 更新Gradle至v8.0
+* 更新compileSdk至32
+* 提升minSdk至21
+* 新增`CoilImageLoader`
+* 新增全局设置图片加载器函数 `ImageViewer.setGlobalDefaultImageLoader(imageLoader)`
+
 #### v1.1.0：2023-9-16
 * 更新Gradle至v7.3.3
 * 更新compileSdk至30

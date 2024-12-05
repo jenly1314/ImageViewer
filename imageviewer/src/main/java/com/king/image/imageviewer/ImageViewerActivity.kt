@@ -1,35 +1,37 @@
-package com.king.image.imageviewer;
+package com.king.image.imageviewer
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-
-import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.viewpager2.widget.ViewPager2;
+import android.os.Bundle
+import android.view.View
+import android.widget.TextView
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 
 /**
+ * 浏览图片时的界面
+ *
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
+ * <p>
+ * <a href="https://github.com/jenly1314">Follow me</a>
  */
-public class ImageViewerActivity extends AppCompatActivity {
+open class ImageViewerActivity : AppCompatActivity() {
 
-    private TextView tvIndicator;
+    private var tvIndicator: TextView? = null
 
-    ImageViewerAdapter mAdapter;
+    private lateinit var mAdapter: ImageViewerAdapter
 
-    private int mSize;
+    private var mSize = 0
 
-    private boolean isShowIndicator;
+    private var isShowIndicator = false
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRequestedOrientation(ViewerSpec.INSTANCE.orientation);
-        setTheme(ViewerSpec.INSTANCE.theme);
-        setContentView(getLayoutId());
-        init();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestedOrientation = ImageViewerSpec.orientation
+        setTheme(ImageViewerSpec.theme)
+        setContentView(getLayoutId())
+        init()
     }
 
     /**
@@ -38,44 +40,47 @@ public class ImageViewerActivity extends AppCompatActivity {
      * @return 返回布局ID
      */
     @LayoutRes
-    protected int getLayoutId() {
-        return R.layout.image_viewer_activity;
+    protected open fun getLayoutId(): Int {
+        return R.layout.image_viewer_activity
     }
 
     /**
      * 初始化
      */
-    protected void init() {
-        tvIndicator = findViewById(R.id.tvIndicator);
-        ViewPager2 viewPager = findViewById(R.id.viewPager);
+    protected open fun init() {
+        tvIndicator = findViewById(R.id.tvIndicator)
+        val viewPager = findViewById<ViewPager2>(R.id.viewPager)
 
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                if (isShowIndicator) {
-                    updateIndicator(position, mSize);
+        viewPager.registerOnPageChangeCallback(
+            object : OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    if (isShowIndicator) {
+                        updateIndicator(position, mSize)
+                    }
                 }
-            }
-        });
+            },
+        )
 
-        ViewCompat.setTransitionName(viewPager, ImageViewer.SHARED_ELEMENT);
+        ViewCompat.setTransitionName(viewPager, ImageViewer.SHARED_ELEMENT)
 
-        mAdapter = new ImageViewerAdapter(ViewerSpec.INSTANCE.listData);
-        viewPager.setAdapter(mAdapter);
+        mAdapter = ImageViewerAdapter(ImageViewerSpec.listData)
+        viewPager.adapter = mAdapter
 
-        mAdapter.setOnItemClickListener((v, position) -> onBackPressed());
-
-        int position = ViewerSpec.INSTANCE.position;
-        mSize = mAdapter.getItemCount();
-        if (position >= 0) {
-            viewPager.setCurrentItem(position, false);
-            updateIndicator(position, mSize);
+        mAdapter.setOnItemClickListener { _, _ ->
+            finishAfterTransition()
         }
 
-        isShowIndicator = ViewerSpec.INSTANCE.isShowIndicator && mSize > 0;
+        val position = ImageViewerSpec.position
+        mSize = mAdapter.itemCount
+        if (position >= 0 && mSize > 0) {
+            viewPager.setCurrentItem(position, false)
+            updateIndicator(position, mSize)
+        }
+
+        isShowIndicator = ImageViewerSpec.showIndicator && mSize > 0
         if (isShowIndicator) {
-            tvIndicator.setVisibility(View.VISIBLE);
+            tvIndicator?.visibility = View.VISIBLE
         }
     }
 
@@ -85,8 +90,8 @@ public class ImageViewerActivity extends AppCompatActivity {
      * @param position
      * @param size
      */
-    private void updateIndicator(int position, int size) {
-        tvIndicator.setText(String.format("%s/%s", Math.min(position + 1, size), size));
+    private fun updateIndicator(position: Int, size: Int) {
+        tvIndicator?.text = String.format("%s/%s", position.plus(1).coerceAtMost(size), size)
     }
 
 }

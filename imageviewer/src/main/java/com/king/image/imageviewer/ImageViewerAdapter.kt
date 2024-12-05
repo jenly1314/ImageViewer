@@ -1,83 +1,69 @@
-package com.king.image.imageviewer;
+package com.king.image.imageviewer
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.github.chrisbanes.photoview.PhotoView
 
 /**
+ * 图片浏览适配器
+ *
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
+ * <p>
+ * <a href="https://github.com/jenly1314">Follow me</a>
  */
-public class ImageViewerAdapter extends Adapter<ImageViewerAdapter.ImageHolder> {
+class ImageViewerAdapter(private val listData: List<*>) :
+    RecyclerView.Adapter<ImageViewerAdapter.ImageHolder>() {
 
-    private final List<?> mListData;
+    private var mOnItemClickListener: OnItemClickListener? = null
 
-    private OnItemClickListener mOnItemClickListener;
-
-    public ImageViewerAdapter(List<?> list) {
-        this.mListData = list != null ? list : new ArrayList<>();
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.image_viewer_list_item, parent, false)
+        return ImageHolder(view)
     }
 
-    @NonNull
-    @Override
-    public ImageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_viewer_list_item, parent, false);
-        return new ImageHolder(view);
+    override fun onBindViewHolder(holder: ImageHolder, position: Int) {
+        holder.displayImage(listData[position])
+        holder.photoView.setOnClickListener { v: View? ->
+            mOnItemClickListener?.onClick(v, holder.adapterPosition)
+        }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ImageHolder holder, int position) {
-        holder.displayImage(mListData.get(position));
-        holder.photoView.setOnClickListener(v -> {
-            if (mOnItemClickListener != null) {
-                mOnItemClickListener.onClick(v, holder.getAdapterPosition());
-            }
-        });
+    override fun getItemCount(): Int {
+        return listData.size
     }
 
-    @Override
-    public int getItemCount() {
-        return mListData != null ? mListData.size() : 0;
-    }
-
-    void setOnItemClickListener(OnItemClickListener listener) {
-        this.mOnItemClickListener = listener;
+    fun setOnItemClickListener(listener: OnItemClickListener?) {
+        this.mOnItemClickListener = listener
     }
 
     /**
      * 点击Item监听
      */
-    public interface OnItemClickListener {
+    fun interface OnItemClickListener {
         /**
          * 点击Item
          *
          * @param v
          * @param position
          */
-        void onClick(View v, int position);
+        fun onClick(v: View?, position: Int)
     }
 
-    static class ImageHolder extends RecyclerView.ViewHolder {
+    class ImageHolder(itemView: View) : ViewHolder(itemView) {
 
-        ImageView photoView;
+        val photoView: PhotoView = itemView.findViewById(R.id.photoView)
 
-        private ImageHolder(@NonNull View itemView) {
-            super(itemView);
-            photoView = itemView.findViewById(R.id.photoView);
-        }
-
-        private void displayImage(Object data) {
-            if (ViewerSpec.INSTANCE.imageLoader != null) {
-                ViewerSpec.INSTANCE.imageLoader.loadImage(photoView.getContext(), photoView, data, ViewerSpec.INSTANCE.placeholderDrawable, ViewerSpec.INSTANCE.errorDrawable);
-            }
+        fun displayImage(model: Any?) {
+            ImageViewerSpec.imageLoader()?.loadImage(
+                imageView = photoView,
+                model = model,
+                placeholderDrawable = ImageViewerSpec.placeholderDrawable,
+                errorDrawable = ImageViewerSpec.errorDrawable,
+            )
         }
     }
-
 }
