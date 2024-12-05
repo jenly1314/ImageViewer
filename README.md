@@ -49,7 +49,7 @@ ImageViewer for Android 是一个图片查看器，一般用来查看图片详�
 
 * 为了保证 **ImageViewer** 体积最小化，让用户有更多选择的可能性， **ImageViewer** 仅编译时用到了 **coil** 、**Glide** 和 **Picasso** 。
 
-> 当你使用了 **CoilImageLoader** 时，则需依赖[coil](https://github.com/coil-kt/coil)库 （v1.2.0新增）
+> 当你使用了 **CoilImageLoader** 时，则需依赖[ **COIL** ](https://github.com/coil-kt/coil)库 （v1.2.0新增）
 
 > 当你使用了 **GlideImageLoader** 时，则需依赖[ **Glide** ](https://github.com/bumptech/glide)库
 

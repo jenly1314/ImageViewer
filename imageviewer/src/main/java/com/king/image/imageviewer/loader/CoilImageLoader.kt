@@ -6,7 +6,7 @@ import coil.load
 import com.king.image.imageviewer.ImageDataSource
 
 /**
- * 当使用[CoilImageLoader]时，必须依赖[coil](https://github.com/coil-kt/coil)库
+ * 当使用[CoilImageLoader]时，必须依赖[COIL](https://github.com/coil-kt/coil)库
  *
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
  * <p>
