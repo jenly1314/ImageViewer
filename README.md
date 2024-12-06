@@ -85,7 +85,7 @@ ImageViewer.load(model)//要加载的图片数据，单张或多张
 ```kotlin
 ImageViewer.setGlobalDefaultImageLoader(imageLoader)
 ```
-> 当设置了全局默认的图片加载器后，就可以在使用`ImageViewer`实例时，不用再单独调用`ImageViewer.imageLoader(imageLoader)`去设置图片加载器了。
+> 当设置了全局默认的图片加载器后，就可以在使用`ImageViewer`实例时，不用再单独调用`imageViewer.imageLoader(imageLoader)`去设置图片加载器了。
 
 
 更多使用详情，请查看[app](app)中的源码使用示例或直接查看 [API帮助文档](https://jenly1314.github.io/ImageViewer/api/)
@@ -105,11 +105,6 @@ ImageViewer.setGlobalDefaultImageLoader(imageLoader)
 * 提升minSdk至21
 * 新增`CoilImageLoader`
 * 新增全局设置图片加载器函数 `ImageViewer.setGlobalDefaultImageLoader(imageLoader)`
-
-#### v1.1.0：2023-9-16
-* 更新Gradle至v7.3.3
-* 更新compileSdk至30
-* 优化细节
 
 #### [查看更多版本日志](CHANGELOG.md)
 
