@@ -3,7 +3,7 @@ compileSdk = "32"
 minSdk = "21"
 targetSdk = "32"
 
-agp = "8.0.2"
+agp = "8.1.2"
 kotlin = "1.8.10"
 dokka = "1.9.20"
 mavenPublish = "0.25.3"
