@@ -34,7 +34,7 @@ android {
     }
     lint {
         abortOnError = false
-        warning += "InvalidPackage"
+        warning.add("InvalidPackage")
     }
 }
 
