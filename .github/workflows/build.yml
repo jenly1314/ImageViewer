@@ -1,4 +1,4 @@
-name: build
+name: Build
 
 on:
   push:
@@ -8,14 +8,6 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: 17
-      - name: Build with Gradle
-        run: ./gradlew build
+    uses: jenly1314/actions/.github/workflows/reusable-build.yml@v1
+    with:
+      java-version-file: '.github/workflows/.java-version'
