@@ -28,7 +28,7 @@ class ImageViewerAdapter(private val listData: List<*>) :
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
         holder.displayImage(listData[position])
         holder.photoView.setOnClickListener { v: View? ->
-            mOnItemClickListener?.onClick(v, holder.adapterPosition)
+            mOnItemClickListener?.onClick(v, holder.bindingAdapterPosition)
         }
     }
 
