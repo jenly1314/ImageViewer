@@ -73,14 +73,15 @@ open class ImageViewerActivity : AppCompatActivity() {
 
         val position = ImageViewerSpec.position
         mSize = mAdapter.itemCount
-        if (position >= 0 && mSize > 0) {
-            viewPager.setCurrentItem(position, false)
-            updateIndicator(position, mSize)
-        }
-
         isShowIndicator = ImageViewerSpec.showIndicator && mSize > 0
         if (isShowIndicator) {
             tvIndicator?.visibility = View.VISIBLE
+        }
+        if (position >= 0 && mSize > 0) {
+            viewPager.setCurrentItem(position, false)
+            if (isShowIndicator) {
+                updateIndicator(position, mSize)
+            }
         }
     }
 
